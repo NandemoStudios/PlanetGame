@@ -1,4 +1,5 @@
 import PlanetaryEngine
+import random
 
 Game = PlanetaryEngine.Engine(900, 600)
 
@@ -27,9 +28,12 @@ Earth = Planet('blue', 30, 300, 20)
 Sun = Planet('yellow', 450, 300, 100)
 
 while Game.running:
+    # Runs the render planets command, displays the planets on screen
     RenderPlanets()
-
+    # Draws a test square
     Game.Graphics.Square("red", 10, 10, 20, 20)
 
+    # Standard refresh function
     Game.step_physics(60)
     Game.clear_screen("black")
+    print(Game.delta())

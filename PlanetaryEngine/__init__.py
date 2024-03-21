@@ -1,3 +1,5 @@
+import logging
+
 import pygame
 from PlanetaryEngine import PELogging
 from PlanetaryEngine import Graphics
@@ -31,3 +33,14 @@ class Engine:
             if event.type == pygame.QUIT:
                 self.running = False
         self.clock.tick(framerate)
+
+    def get_framerate(self):
+        return self.clock.get_fps()
+
+    def delta(self):
+        try:
+            deltatime = 1/self.get_framerate()
+            return deltatime
+        except ZeroDivisionError:
+            logging.log(1, "Must wait one more frame to get the deltatime")
+            return 0.0166

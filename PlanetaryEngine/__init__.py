@@ -2,6 +2,8 @@ import pygame
 from PlanetaryEngine import PELogging
 from PlanetaryEngine import Graphics
 
+if __name__ == "__main__":
+    PELogging.log(2, "You cannot run the engine, it will not work")
 
 class Engine:
 

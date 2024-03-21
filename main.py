@@ -29,5 +29,7 @@ Sun = Planet('yellow', 450, 300, 100)
 while Game.running:
     RenderPlanets()
 
+    Game.Graphics.Square("red", 10, 10, 20, 20)
+
     Game.step_physics(60)
     Game.clear_screen("black")

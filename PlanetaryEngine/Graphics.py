@@ -1,5 +1,6 @@
 import pygame
 import PlanetaryEngine as PE
+from PlanetaryEngine import PELogging
 
 class Graphics:
 
@@ -13,3 +14,10 @@ class Graphics:
             pygame.draw.circle(self.screen, color, center, radius, lineWidth)
         except ValueError:
             PE.PELogging.error("one of the values in circle is not valid")
+
+    def Square(self, color, x1, y1, x2, y2):
+        try:
+            rect = pygame.Rect(x1, y1, x2, y2)
+            pygame.draw.rect(self.screen, color, rect)
+        except ValueError:
+            PELogging.error("A value you entered is invalid")

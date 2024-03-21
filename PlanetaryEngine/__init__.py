@@ -1,9 +1,12 @@
 import pygame
 from PlanetaryEngine import PELogging
 from PlanetaryEngine import Graphics
+import os
 
 if __name__ == "__main__":
-    PELogging.log(2, "You cannot run the engine, it will not work")
+    PELogging.error("You cannot run the engine, it will not work")
+    os.remove("log.txt")
+
 
 class Engine:
 
@@ -12,7 +15,7 @@ class Engine:
         self.screen = pygame.display.set_mode((width, height))
         self.clock = pygame.time.Clock()
         self.running = True
-        self.Graphics = Graphics.Graphics
+        self.Graphics = Graphics.Graphics(self, self.screen)
 
     def clear_screen(self, color):
         try:

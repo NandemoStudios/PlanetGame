@@ -19,7 +19,7 @@ class Planet:
 def RenderPlanets():
     for x in range(0, len(Planets)):
         planet = Planets[x]
-        Game.Graphics.Circle(Game.Graphics, Game.screen, planet.color, planet.x, planet.y, planet.radius, 1)
+        Game.Graphics.Circle(planet.color, planet.x, planet.y, planet.radius, 1)
 
 
 Moon = Planet('Gray', 100, 300, 5)

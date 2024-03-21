@@ -2,6 +2,8 @@ import PlanetaryEngine
 
 Game = PlanetaryEngine.Engine(900, 600)
 
+Planets = []
+
 
 class Planet:
 
@@ -11,17 +13,20 @@ class Planet:
         self.y = y
         self.radius = radius
 
-    def drawPlanet(self):
-        Game.Graphics.Circle(Game.Graphics, Game.screen, self.color, self.x, self.y, self.radius, 1)
+        Planets.append(self)
+
+
+def RenderPlanets():
+    for x in range(0, len(Planets)):
+        planet = Planets[x]
+        Game.Graphics.Circle(Game.Graphics, Game.screen, planet.color, planet.x, planet.y, planet.radius, 1)
 
 
 Earth = Planet('blue', 10, 300, 20)
 Sun = Planet('yellow', 450, 300, 100)
 
 while Game.running:
-
-    Earth.drawPlanet()
-    Sun.drawPlanet()
+    RenderPlanets()
 
     Game.step_physics(60)
     Game.clear_screen("black")

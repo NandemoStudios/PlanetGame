@@ -4,6 +4,9 @@ logfile = open("../log.txt", "a+")
 logfile.write("")
 logfile.close()
 
+def store(text):
+    logfile = open("log.txt", 'w+')
+    logfile.write('ERROR: '+text)
 
 def error(text):
     logging.error(text)

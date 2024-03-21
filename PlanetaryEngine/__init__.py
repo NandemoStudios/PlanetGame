@@ -1,5 +1,6 @@
 import pygame
 from PlanetaryEngine import PELogging
+from PlanetaryEngine import Graphics
 
 
 class Engine:
@@ -9,6 +10,7 @@ class Engine:
         self.screen = pygame.display.set_mode((width, height))
         self.clock = pygame.time.Clock()
         self.running = True
+        self.Graphics = Graphics.Graphics
 
     def clear_screen(self, color):
         try:

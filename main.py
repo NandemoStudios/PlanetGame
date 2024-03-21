@@ -22,7 +22,8 @@ def RenderPlanets():
         Game.Graphics.Circle(Game.Graphics, Game.screen, planet.color, planet.x, planet.y, planet.radius, 1)
 
 
-Earth = Planet('blue', 10, 300, 20)
+Moon = Planet('Gray', 100, 300, 5)
+Earth = Planet('blue', 30, 300, 20)
 Sun = Planet('yellow', 450, 300, 100)
 
 while Game.running:

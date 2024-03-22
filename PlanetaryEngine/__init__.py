@@ -19,6 +19,7 @@ class Engine:
         self.clock = pygame.time.Clock()
         self.running = True
         self.Graphics = Graphics.Graphics(self, self.screen)
+        self.framerate = 0
 
     def clear_screen(self, color):
         try:
@@ -28,6 +29,7 @@ class Engine:
             self.running = False
 
     def step_physics(self, framerate):
+        self.framerate = framerate
         pygame.display.flip()
         events = pygame.event.get()
         for event in events:
@@ -44,4 +46,7 @@ class Engine:
             return deltatime
         except ZeroDivisionError:
             logging.log(1, "Must wait one more frame to get the deltatime")
-            return 0.0166
+            return 1/24
+
+    def set_title(self, text):
+        pygame.display.set_caption(text)

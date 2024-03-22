@@ -3,6 +3,7 @@ import logging
 import pygame
 from PlanetaryEngine import PELogging
 from PlanetaryEngine import Graphics
+from PlanetaryEngine import Maths
 import os
 
 if __name__ == "__main__":

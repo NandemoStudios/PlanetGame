@@ -1,37 +1,49 @@
 import PlanetaryEngine
+from PlanetaryEngine import Maths
 import random
+import math
+import Planets
 
 Game = PlanetaryEngine.Engine(900, 600)
 
-Planets = []
+
+def RenderMoon(self, orbit_speed):
+    getpos = Maths.get_point_on_circle(self.parent.x,
+                                       self.parent.y,
+                                       self.parent.radius + self.orbit_distance,
+                                       self.loop)
+    x = getpos.x
+    y = getpos.y
+    Game.Graphics.Circle(self.color, x, y, self.radius, 1)
+    self.loop += (1*Game.delta()) * orbit_speed
 
 
-class Planet:
-
-    def __init__(self, color, x, y, radius):
-        self.color = color
-        self.x = x
-        self.y = y
-        self.radius = radius
-
-        Planets.append(self)
+def RenderPlanet(self, orbit_speed):
+    orbit_pos = PlanetaryEngine.Maths.get_point_on_circle(self.sun.x, self.sun.y, self.sun.radius + self.orbit_distance,
+                                                          self.loop)
+    Game.Graphics.Circle(self.color, orbit_pos.x, orbit_pos.y, self.radius, 1)
+    self.x = orbit_pos.x
+    self.y = orbit_pos.y
+    self.loop += (1*Game.delta()) * orbit_speed
 
 
-def RenderPlanets():
-    for x in range(0, len(Planets)):
-        planet = Planets[x]
-        Game.Graphics.Circle(planet.color, planet.x, planet.y, planet.radius, 1)
+def RenderSun(self):
+    Game.Graphics.Circle(self.color, self.x, self.y, self.radius, 5)
 
 
-Moon = Planet('Gray', 100, 300, 5)
-Earth = Planet('blue', 30, 300, 20)
-Sun = Planet('yellow', 450, 300, 100)
+theSun = Planets.Sun('yellow', 450, 300, 100)
+Earth = Planets.Planet('green', 20, theSun, 200)
+earthMoon = Planets.Moon('gray', 5, Earth, 20)
+mars = Planets.Planet('red', 15, theSun, 100)
+
+loop = 0
 
 while Game.running:
     # Runs the render planets command, displays the planets on screen
-    RenderPlanets()
-    # Draws a test square
-    Game.Graphics.Square("red", 10, 10, 20, 20)
+    RenderSun(theSun)
+    RenderPlanet(Earth, 1)
+    RenderMoon(earthMoon, 12)
+    RenderPlanet(mars, 0.5)
 
     # Standard refresh function
     Game.step_physics(60)

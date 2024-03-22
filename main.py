@@ -3,6 +3,7 @@ from PlanetaryEngine import Maths
 import random
 import math
 import Planets
+import pygame
 
 global PlanetsRendered
 PlanetsRendered = 0
@@ -61,6 +62,6 @@ while Game.running:
         "Planet Engine | FPS: " + str(round(Game.get_framerate())) + " | Planets Rendered: " + str(PlanetsRendered))
 
     # Standard refresh function
-    Game.step_physics(60)
+    Game.step_physics(pygame.display.get_current_refresh_rate())
     Game.clear_screen("black")
     PlanetsRendered = 0

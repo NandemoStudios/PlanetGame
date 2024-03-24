@@ -3,10 +3,10 @@ import PlanetaryEngine
 
 class Planet:
 
-    def __init__(self, color, radius, sun, orbit_distance):
+    def __init__(self, color, radius, parent, orbit_distance):
         self.color = color
         self.radius = radius
-        self.sun = sun
+        self.parent = parent
         self.orbit_distance = orbit_distance
         self.loop = 0
         self.x = 0

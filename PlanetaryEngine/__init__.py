@@ -48,5 +48,6 @@ class Engine:
             logging.log(1, "Must wait one more frame to get the deltatime")
             return 1/24
 
-    def set_title(self, text):
+    @staticmethod
+    def set_title(text):
         pygame.display.set_caption(text)

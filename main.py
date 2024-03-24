@@ -1,7 +1,6 @@
 import PlanetaryEngine
 from PlanetaryEngine import Maths
-import random
-import math
+from PlanetaryEngine import PELogging
 import Planets
 import pygame
 
@@ -17,7 +16,8 @@ Game.set_title("Planet Game")
 
 def RenderMoon(self, orbit_speed):
     global PlanetsRendered
-    getpos = Maths.get_point_on_circle(self.parent.x, self.parent.y, self.parent.radius*CameraZoom + self.orbit_distance*CameraZoom, self.loop)
+    getpos = Maths.get_point_on_circle(self.parent.x, self.parent.y,
+                                       self.parent.radius * CameraZoom + self.orbit_distance * CameraZoom, self.loop)
     if not self.parent.visible:
         pass
     elif getpos.x > 900 or getpos.x < 0:
@@ -25,31 +25,32 @@ def RenderMoon(self, orbit_speed):
     elif getpos.y > 900 or getpos.y < 0:
         self.visible = False
     else:
-        if self.radius*CameraZoom < 1:
+        if self.radius * CameraZoom < 1:
             self.visible = False
         else:
             self.visible = True
             x = getpos.x
             y = getpos.y
-            Game.Graphics.Circle(self.color, x, y, self.radius*CameraZoom, 1)
+            Game.Graphics.Circle(self.color, x, y, self.radius * CameraZoom, 1)
             PlanetsRendered += 1
     self.loop += (1 * Game.delta()) * orbit_speed
 
 
 def RenderPlanet(self, orbit_speed):
     global PlanetsRendered
-    orbit_pos = PlanetaryEngine.Maths.get_point_on_circle(self.sun.x+Camera.x, self.sun.y+Camera.y, self.sun.radius*CameraZoom + self.orbit_distance*CameraZoom,
+    orbit_pos = PlanetaryEngine.Maths.get_point_on_circle(self.parent.x + Camera.x, self.parent.y + Camera.y,
+                                                          self.parent.radius * CameraZoom + self.orbit_distance * CameraZoom,
                                                           self.loop)
     if orbit_pos.x > 900 or orbit_pos.x < 0:
         self.visible = False
-    elif orbit_pos.y > 900 or orbit_pos.y <0:
+    elif orbit_pos.y > 900 or orbit_pos.y < 0:
         self.visible = False
     else:
         if self.radius * CameraZoom < 1:
             self.visible = False
         else:
             self.visible = True
-            Game.Graphics.Circle(self.color, orbit_pos.x, orbit_pos.y, self.radius*CameraZoom, 1)
+            Game.Graphics.Circle(self.color, orbit_pos.x, orbit_pos.y, self.radius * CameraZoom, 1)
             self.x = orbit_pos.x
             self.y = orbit_pos.y
             PlanetsRendered += 1
@@ -63,12 +64,22 @@ def RenderSun(self):
     elif self.y < 0 or self.y > 900:
         self.visible = False
     else:
-        if not self.radius*CameraZoom < 1:
+        if not self.radius * CameraZoom < 1:
             self.visible = True
-            Game.Graphics.Circle(self.color, self.x+Camera.x, self.y+Camera.y, self.radius*CameraZoom, 5)
+            Game.Graphics.Circle(self.color, self.x + Camera.x, self.y + Camera.y, self.radius * CameraZoom, 5)
             PlanetsRendered += 1
         else:
             self.visible = False
+
+
+def DrawText(text, x, y, fontSize, color, Localtype):
+    try:
+        if Localtype == "local":
+            Game.Graphics.Text(text, x, y, fontSize, color)
+        elif Localtype == "global":
+            Game.Graphics.Text(text, x + Camera.x, y + Camera.y, fontSize, color)
+    except ValueError:
+        PELogging.error("That is not the right value type")
 
 
 theSun = Planets.Sun('yellow', 450, 450, 50)
@@ -104,6 +115,9 @@ while Game.running:
 
     Game.set_title(
         "Planet Engine | FPS: " + str(round(Game.get_framerate())) + " | Planets Rendered: " + str(PlanetsRendered))
+
+    DrawText(str(Camera), 20, 20, 24, 'White', 'local')
+    DrawText(str(round(CameraZoom, 2))+'x', 20, 40, 24, 'White', 'local')
 
     # Standard refresh function
     Game.step_physics(pygame.display.get_current_refresh_rate())

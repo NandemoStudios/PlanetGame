@@ -22,3 +22,8 @@ class Graphics:
             pygame.draw.rect(self.screen, color, rect)
         except ValueError:
             PELogging.error("A value you entered is invalid")
+
+    def Text(self, text, x, y, fontSize, color):
+        font = pygame.font.SysFont(None, fontSize)
+        img = font.render(text, True, color)
+        self.screen.blit(img, (x, y))

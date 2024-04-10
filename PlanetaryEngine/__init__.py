@@ -15,7 +15,7 @@ class Engine:
 
     def __init__(self, width, height):
         pygame.init()
-        self.screen = pygame.display.set_mode((width, height))
+        self.screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
         self.clock = pygame.time.Clock()
         self.running = True
         self.Graphics = Graphics.Graphics(self, self.screen)
@@ -47,6 +47,11 @@ class Engine:
         except ZeroDivisionError:
             logging.log(1, "Must wait one more frame to get the deltatime")
             return 1/24
+
+    def get_window_size(self):
+        size = self.screen.get_size()
+        newsize = pygame.Vector2(size[0], size[1])
+        return newsize
 
     @staticmethod
     def set_title(text):

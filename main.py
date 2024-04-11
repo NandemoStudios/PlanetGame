@@ -113,6 +113,9 @@ while Game.running:
         CameraZoom += 1 * Game.delta()
     if keys[pygame.K_q]:
         CameraZoom -= 1 * Game.delta()
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            print(event.type)
 
     # Runs the render planets command, displays the planets on screen
     RenderSun(theSun, screen_size)

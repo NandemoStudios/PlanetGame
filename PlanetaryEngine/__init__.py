@@ -15,7 +15,7 @@ class Engine:
 
     def __init__(self, width, height):
         pygame.init()
-        self.screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
+        self.screen = pygame.display.set_mode((width, height), pygame.RESIZABLE, vsync=1)
         self.clock = pygame.time.Clock()
         self.running = True
         self.Graphics = Graphics.Graphics(self, self.screen)

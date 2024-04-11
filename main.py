@@ -39,7 +39,7 @@ def RenderMoon(self, orbit_speed, screensize):
 def RenderPlanet(self, orbit_speed, screensize):
     global PlanetsRendered
     orbit_pos = PlanetaryEngine.Maths.get_point_on_circle(self.parent.x + Camera.x, self.parent.y + Camera.y,
-                                                          self.parent.radius * CameraZoom + self.orbit_distance * CameraZoom,
+                                                          self.parent.radius * CameraZoom + (self.orbit_distance + self.parent.radius) * CameraZoom,
                                                           self.loop)
     if orbit_pos.x > screensize.x or orbit_pos.x < 0:
         self.visible = False
@@ -82,20 +82,23 @@ def DrawText(text, x, y, fontSize, color, Localtype):
         PELogging.error("That is not the right value type")
 
 
-theSun = Planets.Sun('yellow', 450, 450, 50)
-Earth = Planets.Planet('green', 20, theSun, 200)
-earthMoon = Planets.Moon('gray', 5, Earth, 20)
-mars = Planets.Planet('red', 15, theSun, 100)
+theSun = Planets.Sun('yellow', 450, 450, 696)
+Earth = Planets.Planet('green', 63, theSun, 1496)
+earthMoon = Planets.Moon('gray', 10, Earth, 384)
+mars = Planets.Planet('red', 33, theSun, 2279)
 marsMoon = Planets.Moon('white', 3, mars, 10)
+marsMoon2 = Planets.Moon('gray', 2, mars, 25)
 
 loop = 0
 
 while Game.running:
     screen_size = Game.get_window_size()
     keys = pygame.key.get_pressed()
-
+    #if keys[pygame.K_SPACE]:
+    #   Camera.x = Earth.x
+    #    Camera.y = Earth.y
     if keys[pygame.K_LSHIFT]:
-        speed_m = 200
+        speed_m = 400
     else:
         speed_m = 100
     if keys[pygame.K_a]:
@@ -115,8 +118,9 @@ while Game.running:
     RenderSun(theSun, screen_size)
     RenderPlanet(Earth, 1, screen_size)
     RenderMoon(earthMoon, 12, screen_size)
-    RenderPlanet(mars, 0.5, screen_size)
+    RenderPlanet(mars, 0.5319148936, screen_size)
     RenderMoon(marsMoon, 0.75, screen_size)
+    RenderMoon(marsMoon2, 0.5, screen_size)
 
     Game.set_title(
         "Planet Engine | FPS: " + str(round(Game.get_framerate())) + " | Planets Rendered: " + str(PlanetsRendered))

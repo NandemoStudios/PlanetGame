@@ -31,7 +31,7 @@ def RenderMoon(self, orbit_speed, screensize):
             self.visible = True
             x = getpos.x
             y = getpos.y
-            Game.Graphics.Circle(self.color, x, y, self.radius * CameraZoom, 1)
+            Game.Graphics.Circle(self.color, x, y, self.radius * CameraZoom, 0)
             PlanetsRendered += 1
     self.loop += (1 * Game.delta()) * orbit_speed
 
@@ -39,7 +39,7 @@ def RenderMoon(self, orbit_speed, screensize):
 def RenderPlanet(self, orbit_speed, screensize):
     global PlanetsRendered
     orbit_pos = PlanetaryEngine.Maths.get_point_on_circle(self.parent.x + Camera.x, self.parent.y + Camera.y,
-                                                          self.parent.radius * CameraZoom + (self.orbit_distance + self.parent.radius) * CameraZoom,
+                                                          self.parent.radius * CameraZoom + self.orbit_distance * CameraZoom,
                                                           self.loop)
     if orbit_pos.x > screensize.x or orbit_pos.x < 0:
         self.visible = False
@@ -50,7 +50,7 @@ def RenderPlanet(self, orbit_speed, screensize):
             self.visible = False
         else:
             self.visible = True
-            Game.Graphics.Circle(self.color, orbit_pos.x, orbit_pos.y, self.radius * CameraZoom, 1)
+            Game.Graphics.Circle(self.color, orbit_pos.x, orbit_pos.y, self.radius * CameraZoom, 0)
             self.x = orbit_pos.x
             self.y = orbit_pos.y
             PlanetsRendered += 1
@@ -66,7 +66,7 @@ def RenderSun(self, screensize):
     else:
         if not self.radius * CameraZoom < 1:
             self.visible = True
-            Game.Graphics.Circle(self.color, self.x + Camera.x, self.y + Camera.y, self.radius * CameraZoom, 5)
+            Game.Graphics.Circle(self.color, self.x + Camera.x, self.y + Camera.y, self.radius * CameraZoom, 0)
             PlanetsRendered += 1
         else:
             self.visible = False

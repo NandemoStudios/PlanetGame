@@ -12,7 +12,7 @@ class Graphics:
     def Circle(self, color, xpos, ypos, radius, lineWidth):
         try:
             center = pygame.Vector2(xpos, ypos)
-            pygame.draw.circle(self.screen, color, center, radius, lineWidth)
+            circle = pygame.draw.circle(self.screen, color, center, radius, lineWidth)
         except ValueError:
             PE.PELogging.error("one of the values in circle is not valid")
 

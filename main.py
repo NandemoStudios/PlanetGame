@@ -3,8 +3,10 @@ from PlanetaryEngine import Maths
 from PlanetaryEngine import PELogging
 import Planets
 import pygame
+import asyncio
 
 global PlanetsRendered
+global CameraZoom
 PlanetsRendered = 0
 
 Camera = pygame.Vector2(0, 0)
@@ -89,49 +91,54 @@ mars = Planets.Planet('red', 33, theSun, 2279)
 marsMoon = Planets.Moon('white', 3, mars, 10)
 marsMoon2 = Planets.Moon('gray', 2, mars, 25)
 
-loop = 0
+async def game():
+    global PlanetsRendered
+    global CameraZoom
+    loop = 0
+    while Game.running:
+        screen_size = Game.get_window_size()
+        keys = pygame.key.get_pressed()
+        #if keys[pygame.K_SPACE]:
+        #   Camera.x = Earth.x
+        #    Camera.y = Earth.y
+        if keys[pygame.K_LSHIFT]:
+            speed_m = 400
+        else:
+            speed_m = 100
+        if keys[pygame.K_a]:
+            Camera.x += speed_m * Game.delta()
+        if keys[pygame.K_d]:
+            Camera.x -= speed_m * Game.delta()
+        if keys[pygame.K_w]:
+            Camera.y += speed_m * Game.delta()
+        if keys[pygame.K_s]:
+            Camera.y -= speed_m * Game.delta()
+        if keys[pygame.K_e]:
+            CameraZoom += 1 * Game.delta()
+        if keys[pygame.K_q]:
+            CameraZoom -= 1 * Game.delta()
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                print(event.type)
 
-while Game.running:
-    screen_size = Game.get_window_size()
-    keys = pygame.key.get_pressed()
-    #if keys[pygame.K_SPACE]:
-    #   Camera.x = Earth.x
-    #    Camera.y = Earth.y
-    if keys[pygame.K_LSHIFT]:
-        speed_m = 400
-    else:
-        speed_m = 100
-    if keys[pygame.K_a]:
-        Camera.x += speed_m * Game.delta()
-    if keys[pygame.K_d]:
-        Camera.x -= speed_m * Game.delta()
-    if keys[pygame.K_w]:
-        Camera.y += speed_m * Game.delta()
-    if keys[pygame.K_s]:
-        Camera.y -= speed_m * Game.delta()
-    if keys[pygame.K_e]:
-        CameraZoom += 1 * Game.delta()
-    if keys[pygame.K_q]:
-        CameraZoom -= 1 * Game.delta()
-    for event in pygame.event.get():
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            print(event.type)
+        # Runs the render planets command, displays the planets on screen
+        RenderSun(theSun, screen_size)
+        RenderPlanet(Earth, 1, screen_size)
+        RenderMoon(earthMoon, 12, screen_size)
+        RenderPlanet(mars, 0.5319148936, screen_size)
+        RenderMoon(marsMoon, 0.75, screen_size)
+        RenderMoon(marsMoon2, 0.5, screen_size)
 
-    # Runs the render planets command, displays the planets on screen
-    RenderSun(theSun, screen_size)
-    RenderPlanet(Earth, 1, screen_size)
-    RenderMoon(earthMoon, 12, screen_size)
-    RenderPlanet(mars, 0.5319148936, screen_size)
-    RenderMoon(marsMoon, 0.75, screen_size)
-    RenderMoon(marsMoon2, 0.5, screen_size)
+        Game.set_title(
+            "Planet Engine | FPS: " + str(round(Game.get_framerate())) + " | Planets Rendered: " + str(PlanetsRendered))
 
-    Game.set_title(
-        "Planet Engine | FPS: " + str(round(Game.get_framerate())) + " | Planets Rendered: " + str(PlanetsRendered))
+        DrawText(str(Camera), 20, 20, 24, 'White', 'local')
+        DrawText(str(round(CameraZoom, 2))+'x', 20, 40, 24, 'White', 'local')
 
-    DrawText(str(Camera), 20, 20, 24, 'White', 'local')
-    DrawText(str(round(CameraZoom, 2))+'x', 20, 40, 24, 'White', 'local')
+        # Standard refresh function
+        Game.step_physics(pygame.display.get_current_refresh_rate())
+        Game.clear_screen("black")
+        PlanetsRendered = 0
+        await asyncio.sleep(0)
 
-    # Standard refresh function
-    Game.step_physics(pygame.display.get_current_refresh_rate())
-    Game.clear_screen("black")
-    PlanetsRendered = 0
+asyncio.run(game())
